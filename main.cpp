@@ -5,7 +5,7 @@
 
 int main()
 {
-	srand(static_cast<unsigned int>(time_t(NULL)));
+	srand(static_cast<unsigned int>(time(NULL)));
 	string filename = "Records.txt";
 	const int MAXPASSLENGTH = 17;
 	records Records;
