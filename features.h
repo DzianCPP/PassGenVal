@@ -8,6 +8,7 @@ void setResource(string& resource);
 void setLogin(string& login);
 char setPasswordMenu();
 bool validatePassword(char* password);
+bool validatePasswordAuto(char* password);
 char* setPasswordManually(char* password);
 int setPasswordSize();
 char* setPasswordAuto(char* password);

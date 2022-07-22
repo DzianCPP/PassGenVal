@@ -81,10 +81,9 @@ char setPasswordMenu() {
 	return option;
 }
 
-bool validatePassword(char* password)
+bool validatePasswordAuto(char* password)
 {
 	if (strlen(password) < 8 || strlen(password) > 16) {
-		cout << "Password is invalid! It must be 8-16 symbols" << endl;
 		return false;
 	}
 
@@ -95,7 +94,6 @@ bool validatePassword(char* password)
 		}
 	}
 	if (!upperCount) {
-		cout << "Error! The password doesn't have upper case letters!" << endl;
 		return false;
 	}
 
@@ -106,7 +104,6 @@ bool validatePassword(char* password)
 		}
 	}
 	if (!lowerCount) {
-		cout << "Error! The password doesn't have lower case letters!" << endl;
 		return false;
 	}
 
@@ -117,7 +114,6 @@ bool validatePassword(char* password)
 		}
 	}
 	if (!numCount) {
-		cout << "Error! The password doesn't have numbers." << endl;
 		return false;
 	}
 
@@ -134,7 +130,82 @@ bool validatePassword(char* password)
 		}
 	}
 	if (!specialCount) {
-		cout << "Error! The password doesn't have special characters: !, @, #, $, %, ^, &, *, (, ), _, +, -, = " << endl;
+		return false;
+	}
+
+	return true;
+}
+
+bool validatePassword(char* password)
+{
+	if (strlen(password) < 8 || strlen(password) > 16) {
+		cout << "Password is invalid! It must be 8-16 symbols" << endl;
+		return false;
+	}
+
+	int upperCount = 0;
+	for (int i = 0; i <= strlen(password) - 1; i++) {
+		if (isupper(password[i])) {
+			upperCount++;
+		}
+	}
+	if (!upperCount) {
+		cout << "Error! The password doesn't have upper case letters!" << endl;
+		return false;
+	}
+
+	int lowerCount = 0;
+	for (int i = 0; i <= strlen(password) - 1; i++) {
+		if (islower(password[i])) {
+			lowerCount++;
+		}
+	}
+	if (!lowerCount) {
+		cout << "Error! The password doesn't have lower case letters!" << endl;
+		return false;
+	}
+
+	int numCount = 0;
+	for (int i = 0; i <= strlen(password) - 1; i++) {
+		if (isdigit(password[i])) {
+			numCount++;
+		}
+	}
+	if (!numCount) {
+		cout << "Error! The password doesn't have numbers." << endl;
+		return false;
+	}
+
+	int specialCount = 0;
+	for (int i = 0; i <= strlen(password) - 1; i++)
+	{
+		if (password[i] == 33
+			|| password[i] == 35 || password[i] == 36
+			|| password[i] == 37 || password[i] == 38
+			|| password[i] == 40 || password[i] == 41
+			|| password[i] == 42 || password[i] == 43
+			|| password[i] == 45 || password[i] == 61
+			|| password[i] == 64 || password[i] == 94 || password[i] == 95)
+		{
+			specialCount++;
+		}
+
+		if (password[i] == 34 || password[i] == 39
+			|| password[i] == 40 || password[i] == 41
+			|| password[i] == 44 || password[i] == 46
+			|| password[i] == 47 || password[i] == 58
+			|| password[i] == 59 || password[i] == 60
+			|| password[i] == 62 || password[i] == 63
+			|| password[i] == 91 || password[i] == 92
+			|| password[i] == 93 || password[i] == 96)
+		{
+			password[i] = rand() % 89 + 33;
+			i--;
+		}
+	}
+
+	if (!specialCount)
+	{
 		return false;
 	}
 
@@ -185,7 +256,7 @@ char* setPasswordAuto(char* password) {
 	}
 	password[pass_size] = '\0';
 
-	if (validatePassword(password))
+	if (validatePasswordAuto(password))
 	{
 		return password;
 	}
