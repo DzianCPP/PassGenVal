@@ -17,6 +17,7 @@ int main()
 		case 'a':
 		case 'A':
 			setRecordInfo(resource, login, password);
+			Records.push_back(login, resource, password);
 			break;
 
 		default:
