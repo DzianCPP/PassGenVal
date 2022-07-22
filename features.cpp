@@ -2,6 +2,7 @@
 
 #include "features.h"
 #include "libs.h"
+#include "records.h"
 
 char startMenu()
 {
@@ -265,4 +266,42 @@ char* setPasswordAuto(char* password) {
 	{
 		return setPasswordAuto(password);
 	}
+}
+
+
+
+void readInfo(string filename, char* value, ifstream& fin) {
+	fin.getline(value, 100);
+}
+
+void readInfo(string filename, string& value, ifstream& fin) {
+	getline(fin, value);
+	if (value == "") {
+		getline(fin, value);
+	}
+}
+
+void readAllRecords(string filename, string& resource, string& login, char* password, records& Records) {
+	ifstream fin(filename);
+	if (!fin.is_open()) {
+		cout << "Error! File not working." << endl;
+	}
+
+	else {
+		char toSkip[2]{};
+		for (; ;) {
+			readInfo(filename, resource, fin);
+			readInfo(filename, login, fin);
+			readInfo(filename, password, fin);
+			readInfo(filename, toSkip, fin);
+			readInfo(filename, toSkip, fin);
+			Records.push_back(login, resource, password);
+			if (fin.eof()) {
+				break;
+			}
+		}
+
+		Records.printRecord("all");
+	}
+	fin.close();
 }

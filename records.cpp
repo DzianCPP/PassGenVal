@@ -122,7 +122,7 @@ void records::printRecord(string all) {
 		cout << toPrint->resource << endl <<
 			toPrint->login << endl <<
 			toPrint->password << endl <<
-			toPrint->id_ << endl;
+			toPrint->id_ << endl << endl;
 
 		toPrint = toPrint->next_record_;
 		if (toPrint == nullptr) {
@@ -134,10 +134,10 @@ void records::printRecord(string all) {
 void records::printRecord(Record& record) {
 	int counter = 0;
 	{
-		cout << record.resource << endl <<
-			record.login << endl <<
-			record.password << endl <<
-			record.id_ << endl;
+		cout << "Resource: " << record.resource << endl <<
+			"Login: " << record.login << endl <<
+			"Password: " << record.password << endl <<
+			"id: " << record.id_ << endl << endl;
 	}
 }
 
@@ -145,10 +145,10 @@ void records::printRecord(int index) {
 	int counter = 0;
 	Record* toPrint = this->first_record_p_;
 	if (index == 1) {
-		cout << toPrint->resource << endl <<
-			toPrint->login << endl <<
-			toPrint->password << endl <<
-			toPrint->id_ << endl;
+		cout << "Resource: " << toPrint->resource << endl <<
+			"Login: " << toPrint->login << endl <<
+			"Password: " << toPrint->password << endl <<
+			"id: " << toPrint->id_ << endl << endl;
 	}
 
 	else if (index > 1) {
@@ -156,10 +156,10 @@ void records::printRecord(int index) {
 			toPrint = toPrint->next_record_;
 			counter++;
 		}
-		cout << toPrint->resource << endl <<
-			toPrint->login << endl <<
-			toPrint->password << endl <<
-			toPrint->id_ << endl;
+		cout << "Resource: " << toPrint->resource << endl <<
+			"Login: " << toPrint->login << endl <<
+			"Password: " << toPrint->password << endl <<
+			"id: " << toPrint->id_ << endl << endl;
 	}
 }
 
@@ -204,7 +204,7 @@ void records::saveToFileAll(string filename) {
 				fout << toPrint->resource << endl <<
 					toPrint->login << endl <<
 					toPrint->password << endl <<
-					toPrint->id_ << endl << endl << endl;
+					toPrint->id_ << endl;
 
 				if (toPrint->next_record_ != nullptr) {
 					toPrint = toPrint->next_record_;
