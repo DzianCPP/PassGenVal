@@ -73,7 +73,7 @@ void setLogin(string& login) {
 }
 
 char setPasswordMenu() {
-	cout << "How do you want to create the passwrod:" << endl <<
+	cout << "How do you want to create the password:" << endl <<
 		"1 - manually" << endl <<
 		"2 - automatically" << endl <<
 		"q - quit" << endl;
@@ -82,65 +82,12 @@ char setPasswordMenu() {
 	return option;
 }
 
-bool validatePasswordAuto(char* password)
+bool validatePassword(char* password, string mod)
 {
 	if (strlen(password) < 8 || strlen(password) > 16) {
-		return false;
-	}
-
-	int upperCount = 0;
-	for (int i = 0; i <= strlen(password)-1; i++) {
-		if (isupper(password[i])) {
-			upperCount++;
+		if (mod == "manual") {
+			cout << "Password is invalid! It must be 8-16 symbols" << endl;
 		}
-	}
-	if (!upperCount) {
-		return false;
-	}
-
-	int lowerCount = 0;
-	for (int i = 0; i <= strlen(password)-1; i++) {
-		if (islower(password[i])) {
-			lowerCount++;
-		}
-	}
-	if (!lowerCount) {
-		return false;
-	}
-
-	int numCount = 0;
-	for (int i = 0; i <= strlen(password)-1; i++) {
-		if (isdigit(password[i])) {
-			numCount++;
-		}
-	}
-	if (!numCount) {
-		return false;
-	}
-
-	int specialCount = 0;
-	for (int i = 0; i <= strlen(password)-1; i++) {
-		if (password[i] == 33
-			|| password[i] == 35 || password[i] == 36
-			|| password[i] == 37 || password[i] == 38
-			|| password[i] == 40 || password[i] == 41
-			|| password[i] == 42 || password[i] == 43
-			|| password[i] == 45 || password[i] == 61
-			|| password[i] == 64 || password[i] == 94 || password[i] == 95) {
-			specialCount++;
-		}
-	}
-	if (!specialCount) {
-		return false;
-	}
-
-	return true;
-}
-
-bool validatePassword(char* password)
-{
-	if (strlen(password) < 8 || strlen(password) > 16) {
-		cout << "Password is invalid! It must be 8-16 symbols" << endl;
 		return false;
 	}
 
@@ -151,7 +98,9 @@ bool validatePassword(char* password)
 		}
 	}
 	if (!upperCount) {
-		cout << "Error! The password doesn't have upper case letters!" << endl;
+		if (mod == "manual") {
+			cout << "Error! The password doesn't have upper case letters!" << endl;
+		}
 		return false;
 	}
 
@@ -162,7 +111,9 @@ bool validatePassword(char* password)
 		}
 	}
 	if (!lowerCount) {
-		cout << "Error! The password doesn't have lower case letters!" << endl;
+		if (mod == "manual") {
+			cout << "Error! The password doesn't have lower case letters!" << endl;
+		}
 		return false;
 	}
 
@@ -173,7 +124,9 @@ bool validatePassword(char* password)
 		}
 	}
 	if (!numCount) {
-		cout << "Error! The password doesn't have numbers." << endl;
+		if (mod == "manual") {
+			cout << "Error! The password doesn't have numbers." << endl;
+		}
 		return false;
 	}
 
@@ -190,18 +143,18 @@ bool validatePassword(char* password)
 		{
 			specialCount++;
 		}
-
-		if (password[i] == 34 || password[i] == 39
-			|| password[i] == 40 || password[i] == 41
-			|| password[i] == 44 || password[i] == 46
-			|| password[i] == 47 || password[i] == 58
-			|| password[i] == 59 || password[i] == 60
-			|| password[i] == 62 || password[i] == 63
-			|| password[i] == 91 || password[i] == 92
-			|| password[i] == 93 || password[i] == 96)
-		{
-			password[i] = rand() % 89 + 33;
-			i--;
+		if (mod == "auto") {
+			if (password[i] == 34 || password[i] == 39
+				|| password[i] == 40 || password[i] == 41
+				|| password[i] == 44 || password[i] == 46
+				|| password[i] == 47 || password[i] == 58
+				|| password[i] == 59 || password[i] == 60
+				|| password[i] == 62 || password[i] == 63
+				|| password[i] == 91 || password[i] == 92
+				|| password[i] == 93 || password[i] == 96) {
+				password[i] = rand() % 89 + 33;
+				i--;
+			}
 		}
 	}
 
@@ -215,7 +168,7 @@ bool validatePassword(char* password)
 
 char* setPasswordManually(char* password) {
 	cin >> password;
-	if (validatePassword(password)) {
+	if (validatePassword(password, "manual")) {
 		return password;
 	}
 
@@ -257,7 +210,7 @@ char* setPasswordAuto(char* password) {
 	}
 	password[pass_size] = '\0';
 
-	if (validatePasswordAuto(password))
+	if (validatePassword(password, "auto"))
 	{
 		return password;
 	}
@@ -274,34 +227,39 @@ void readInfo(string filename, char* value, ifstream& fin) {
 	fin.getline(value, 100);
 }
 
-void readInfo(string filename, string& value, ifstream& fin) {
-	getline(fin, value);
-	if (value == "") {
-		getline(fin, value);
+bool readInfo(string filename, string& value, ifstream& fin) {
+	string value_temp;
+	getline(fin, value_temp);
+	if (value_temp == "" || value_temp == "\n") {
+		return false;
+	}
+	
+	else {
+		value = value_temp;
+		return true;
 	}
 }
 
-void readAllRecords(string filename, string& resource, string& login, char* password, records& Records) {
+bool readAllRecords(string filename, string& resource, string& login, char* password, records& Records) {
 	ifstream fin(filename);
 	if (!fin.is_open()) {
 		cout << "Error! File not working." << endl;
+		return false;
 	}
 
-	else {
-		char toSkip[2]{};
-		for (; ;) {
-			readInfo(filename, resource, fin);
-			readInfo(filename, login, fin);
-			readInfo(filename, password, fin);
-			readInfo(filename, toSkip, fin);
-			readInfo(filename, toSkip, fin);
-			Records.push_back(login, resource, password);
-			if (fin.eof()) {
-				break;
-			}
+	char toSkip[2]{};
+	for (; ;) {
+		if (!(readInfo(filename, resource, fin))) {
+			break;
 		}
-
-		Records.printRecord("all");
+		readInfo(filename, login, fin);
+		readInfo(filename, password, fin);
+		Records.push_back(login, resource, password);
+		if (fin.eof()) {
+			break;
+		}
 	}
 	fin.close();
+
+	return true;
 }

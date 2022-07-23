@@ -26,6 +26,7 @@ int main()
 		case 'e':
 		case'E':
 			readAllRecords(filename, resource, login, password, Records);
+			Records.printRecord("all");
 			cout << endl << "___________________________________" << endl <<
 				"Which record would you like to edit?" << endl <<
 				"Enter the record's id: ";
@@ -35,9 +36,8 @@ int main()
 				"L - login" << endl <<
 				"P - password" << endl <<
 				"q - quit" << endl;
-			char option2{};
-			cin >> option2;
-			switch (option2) {
+			cin >> option;
+			switch (option) {
 				case 'r':
 				case 'R':
 					cout << "Enter the new resource: ";
@@ -50,9 +50,18 @@ int main()
 					break;
 			}
 
+		case 's':
+		case 'S':
+			if (readAllRecords(filename, resource, login, password, Records)) {
+				Records.printRecord("all");
+			}
+			break;
+
 		default:
 			cout << "Error! Something went wrong." << endl;
 			break;
 	}
+
+	system("pause");
 	return 0;
 }

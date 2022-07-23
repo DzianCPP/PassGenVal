@@ -11,7 +11,6 @@ private:
 		string login{};
 		string resource{};
 		char* password{};
-		int id_;
 
 		Record(string login, string resource, char* password, Record* next_record_ = nullptr) {
 			this->login = login;
@@ -27,7 +26,6 @@ public:
 	int getRecordsAmount();
 	void push_back(string login, string resource, char* password);
 	void push_front(string login, string resource, char* password);
-	void insert(string login, string resource, char* password, int index);
 	void clear();
 	void pop_front();
 	void pop_back();

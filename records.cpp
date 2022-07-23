@@ -32,7 +32,6 @@ records::~records(void) {
 void records::push_back(string login, string resource, char* password) {
 	if (first_record_p_ == nullptr) {
 		first_record_p_ = new Record(login, resource, password);
-		first_record_p_->id_ = records_amount_ + 1;
 	}
 
 	else if (first_record_p_ != nullptr) {
@@ -42,7 +41,6 @@ void records::push_back(string login, string resource, char* password) {
 		}
 		this_record->next_record_ = new Record(login, resource, password);
 		this_record = this_record->next_record_;
-		this_record->id_ = records_amount_ + 1;
 	}
 
 	records_amount_++;
@@ -62,22 +60,6 @@ void records::push_front(string login, string resource, char* password) {
 	Record* new_record = new Record(login, resource, password);
 	new_record->next_record_ = first_record_p_;
 	first_record_p_ = new_record;
-	records_amount_++;
-}
-
-void records::insert(string login, string resource, char* password, int index) {
-	Record* new_record = new Record(login, resource, password);
-	Record* previous_record = this->first_record_p_;
-	int counter = 0;
-	while (counter != index - 2) {
-		previous_record = previous_record->next_record_;
-		counter++;
-	}
-
-	new_record->next_record_ = previous_record->next_record_;
-	previous_record->next_record_ = new_record;
-	new_record->id_ = idBuilder();
-	previous_record = nullptr;
 	records_amount_++;
 }
 
@@ -119,10 +101,9 @@ void records::remove(int index) {
 void records::printRecord(string all) {
 	Record* toPrint = this->first_record_p_;
 	for (; ;) {
-		cout << toPrint->resource << endl <<
-			toPrint->login << endl <<
-			toPrint->password << endl <<
-			toPrint->id_ << endl << endl;
+		cout << "Resource: " << toPrint->resource << endl <<
+			"Login: " << toPrint->login << endl <<
+			"Password: " << toPrint->password << endl << endl;
 
 		toPrint = toPrint->next_record_;
 		if (toPrint == nullptr) {
@@ -136,8 +117,7 @@ void records::printRecord(Record& record) {
 	{
 		cout << "Resource: " << record.resource << endl <<
 			"Login: " << record.login << endl <<
-			"Password: " << record.password << endl <<
-			"id: " << record.id_ << endl << endl;
+			"Password: " << record.password << endl << endl;
 	}
 }
 
@@ -147,8 +127,7 @@ void records::printRecord(int index) {
 	if (index == 1) {
 		cout << "Resource: " << toPrint->resource << endl <<
 			"Login: " << toPrint->login << endl <<
-			"Password: " << toPrint->password << endl <<
-			"id: " << toPrint->id_ << endl << endl;
+			"Password: " << toPrint->password << endl << endl;
 	}
 
 	else if (index > 1) {
@@ -158,8 +137,7 @@ void records::printRecord(int index) {
 		}
 		cout << "Resource: " << toPrint->resource << endl <<
 			"Login: " << toPrint->login << endl <<
-			"Password: " << toPrint->password << endl <<
-			"id: " << toPrint->id_ << endl << endl;
+			"Password: " << toPrint->password << endl << endl;
 	}
 }
 
@@ -195,16 +173,14 @@ void records::saveToFileAll(string filename) {
 		if (toPrint->next_record_ == nullptr) {
 			fout << toPrint->resource << endl <<
 				toPrint->login << endl <<
-				toPrint->password << endl <<
-				toPrint->id_ << endl << endl << endl;
+				toPrint->password << endl;
 		}
 		
 		else {
 			for (; ;) {
 				fout << toPrint->resource << endl <<
 					toPrint->login << endl <<
-					toPrint->password << endl <<
-					toPrint->id_ << endl;
+					toPrint->password << endl;
 
 				if (toPrint->next_record_ != nullptr) {
 					toPrint = toPrint->next_record_;
