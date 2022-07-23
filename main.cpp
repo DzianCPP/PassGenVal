@@ -6,7 +6,7 @@
 int main()
 {
 	srand(static_cast<unsigned int>(time(NULL)));
-	string filename = "Records.txt";
+	string filename = "records.dat";
 	const int MAXPASSLENGTH = 17;
 	records Records;
 	string resource{};
@@ -21,7 +21,7 @@ int main()
 		case 'A':
 			setRecordInfo(resource, login, password);
 			Records.push_back(login, resource, password);
-			Records.saveToFileAll("records.txt");
+			Records.saveToFileAll(filename);
 			break;
 
 		case 'e':
@@ -45,7 +45,7 @@ int main()
 					cin >> resource;
 					Records.edit_record(login, resource, password, id);
 					Records.saveToFileAll(filename);
-					std:system("cls");
+					system("cls");
 					Records.printRecord("all");
 					break;
 

@@ -165,7 +165,7 @@ void showRecords(string& filename, ifstream& fin) {
 }
 
 void records::saveToFileAll(string filename) {
-	ofstream fout(filename, ofstream::app);
+	ofstream fout(filename, ofstream::app, ios_base::binary);
 	if (!fout.is_open()) { cout << "Error! No file!" << endl; }
 
 	else {
