@@ -72,7 +72,9 @@ void records::edit_record(string login, string resource, char* password, int ind
 	}
 
 	edited_record->login = login;
-	edited_record->password = password;
+	for (int i = 0; i < strlen(password); i++) {
+		edited_record->password[i] = password[i];
+	}
 	edited_record->resource = resource;
 }
 
@@ -100,10 +102,12 @@ void records::remove(int index) {
 
 void records::printRecord(string all) {
 	Record* toPrint = this->first_record_p_;
-	for (; ;) {
+	int count = { 1 };
+	for (; ;count++) {
 		cout << "Resource: " << toPrint->resource << endl <<
 			"Login: " << toPrint->login << endl <<
-			"Password: " << toPrint->password << endl << endl;
+			"Password: " << toPrint->password << endl <<
+			"Number: " << count << endl << endl;
 
 		toPrint = toPrint->next_record_;
 		if (toPrint == nullptr) {
@@ -113,11 +117,12 @@ void records::printRecord(string all) {
 }
 
 void records::printRecord(Record& record) {
-	int counter = 0;
-	{
+	int count = { 1 };
+	for (; ; count++) {
 		cout << "Resource: " << record.resource << endl <<
 			"Login: " << record.login << endl <<
-			"Password: " << record.password << endl << endl;
+			"Password: " << record.password << endl <<
+			"Number: " << count << endl << endl;
 	}
 }
 
@@ -139,11 +144,6 @@ void records::printRecord(int index) {
 			"Login: " << toPrint->login << endl <<
 			"Password: " << toPrint->password << endl << endl;
 	}
-}
-
-int records::idBuilder()
-{
-	return records_amount_ + 1;
 }
 
 void showRecords(string& filename, ifstream& fin) {

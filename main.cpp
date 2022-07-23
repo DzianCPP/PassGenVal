@@ -11,6 +11,7 @@ int main()
 	records Records;
 	string resource{};
 	string login{};
+	int id;
 	char password[MAXPASSLENGTH]{};
 
 	char option = startMenu();
@@ -30,7 +31,7 @@ int main()
 			cout << endl << "___________________________________" << endl <<
 				"Which record would you like to edit?" << endl <<
 				"Enter the record's id: ";
-			cin >> option;
+			cin >> id;
 			cout << "What do you need to change?" << endl <<
 				"R - resource" << endl <<
 				"L - login" << endl <<
@@ -42,7 +43,10 @@ int main()
 				case 'R':
 					cout << "Enter the new resource: ";
 					cin >> resource;
-
+					Records.edit_record(login, resource, password, id);
+					Records.saveToFileAll(filename);
+					std:system("cls");
+					Records.printRecord("all");
 					break;
 
 				default:

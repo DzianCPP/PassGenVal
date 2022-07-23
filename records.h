@@ -10,12 +10,14 @@ private:
 		Record* next_record_;
 		string login{};
 		string resource{};
-		char* password{};
+		char password[17]{};
 
 		Record(string login, string resource, char* password, Record* next_record_ = nullptr) {
 			this->login = login;
 			this->resource = resource;
-			this->password = password;
+			for (int i = 0; i < strlen(password); i++) {
+				this->password[i] = password[i];
+			}
 			this->next_record_ = next_record_;
 		}
 	};
