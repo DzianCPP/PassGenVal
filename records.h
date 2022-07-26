@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef _RECORDS_H_
+#define _RECORDS_H_
+
 #include "records.h"
 #include "libs.h"
 
@@ -31,17 +34,18 @@ public:
 	void clear();
 	void pop_front();
 	void pop_back();
-	void edit_record(string login, string resource, char* password, int index);
+	void edit_record(string login, string resource, char* password, int index, string mod);
 	void remove(int index);
 	void printRecord(string all);
 	void printRecord(int index);
 	void printRecord(Record& record);
-	int idBuilder();
-
 	void saveToFileAll(string filename);
+	void saveToFileOne(string filename);
 
 private:
 
 	int records_amount_;
 	Record* first_record_p_;
 };
+
+#endif

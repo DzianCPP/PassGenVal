@@ -63,7 +63,7 @@ void records::push_front(string login, string resource, char* password) {
 	records_amount_++;
 }
 
-void records::edit_record(string login, string resource, char* password, int index) {
+void records::edit_record(string login, string resource, char* password, int index, string mod) {
 	Record* edited_record = this->first_record_p_;
 	int counter = 0;
 	while (counter != index - 1) {
@@ -71,11 +71,19 @@ void records::edit_record(string login, string resource, char* password, int ind
 		counter++;
 	}
 
-	edited_record->login = login;
-	for (int i = 0; i < strlen(password); i++) {
-		edited_record->password[i] = password[i];
+	if (mod == "login") {
+		edited_record->login = login;
 	}
-	edited_record->resource = resource;
+
+	else if (mod == "password") {
+		for (int i = 0; i < strlen(password); i++) {
+			edited_record->password[i] = password[i];
+		}
+	}
+	
+	else if (mod == "resource") {
+		edited_record->resource = resource;
+	}
 }
 
 void records::remove(int index) {
@@ -165,7 +173,7 @@ void showRecords(string& filename, ifstream& fin) {
 }
 
 void records::saveToFileAll(string filename) {
-	ofstream fout(filename, ofstream::app, ios_base::binary);
+	ofstream fout(filename, ios_base::binary);
 	if (!fout.is_open()) { cout << "Error! No file!" << endl; }
 
 	else {
@@ -176,6 +184,38 @@ void records::saveToFileAll(string filename) {
 				toPrint->password << endl;
 		}
 		
+		else {
+			for (; ;) {
+				fout << toPrint->resource << endl <<
+					toPrint->login << endl <<
+					toPrint->password << endl;
+
+				if (toPrint->next_record_ != nullptr) {
+					toPrint = toPrint->next_record_;
+				}
+
+				else {
+					break;
+				}
+			}
+		}
+	}
+
+	fout.close();
+}
+
+void records::saveToFileOne(string filename) {
+	ofstream fout(filename, ofstream::app);
+	if (!fout.is_open()) { cout << "Error! No file!" << endl; }
+
+	else {
+		Record* toPrint = this->first_record_p_;
+		if (toPrint->next_record_ == nullptr) {
+			fout << toPrint->resource << endl <<
+				toPrint->login << endl <<
+				toPrint->password << endl;
+		}
+
 		else {
 			for (; ;) {
 				fout << toPrint->resource << endl <<

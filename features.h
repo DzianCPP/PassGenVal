@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _FEATURES_H_
+#define _FEATURES_H_
 
 #include "libs.h"
 #include "records.h"
@@ -15,3 +17,4 @@ char* setPasswordAuto(char* password);
 void readInfo(string filename, char* value, ifstream& fin);
 bool readInfo(string filename, string& value, ifstream& fin);
 bool readAllRecords(string filename, string& resource, string& login, char* password, records& Records);
+#endif

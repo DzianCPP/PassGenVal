@@ -55,10 +55,12 @@ void setRecordInfo(string& resource, string& login, char* password) {
 		break;
 
 	case 'q':
+		CLS
 		startMenu();
 		break;
 
 	default:
+		CLS
 		startMenu();
 		break;
 	}
@@ -76,7 +78,8 @@ char setPasswordMenu() {
 	cout << "How do you want to create the password:" << endl <<
 		"1 - manually" << endl <<
 		"2 - automatically" << endl <<
-		"q - quit" << endl;
+		"q - quit" << endl <<
+		"m - main menu" << endl;
 	char option{};
 	cin >> option;
 	return option;
