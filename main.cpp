@@ -11,113 +11,175 @@ int main()
 	records Records;
 	string resource{};
 	string login{};
-	int id;
+	string keyword{};
+	int id{};
 	char password[MAXPASSLENGTH]{};
 
 	char option = startMenu();
 
-	switch (option) {
+	while (option != 'Q' && option != 'q') {
+		switch (option) {
 		case 'a':
 		case 'A':
 			CLS
-			setRecordInfo(resource, login, password);
+				setRecordInfo(resource, login, password);
 			Records.push_back(login, resource, password);
 			Records.saveToFileOne(filename);
+			CLS
+				Records.printRecord("all");
+			cout << endl << "____________________" << endl << endl;
+			option = startMenu();
 			break;
 
 		case 'e':
 		case'E':
 			CLS
-			readAllRecords(filename, resource, login, password, Records);
-			Records.printRecord("all");
-			cout << endl << "___________________________________" << endl <<
-				"Which record would you like to edit?" << endl <<
-				"Enter the record's number: ";
-			cin >> id;
-			cout << "What do you need to change?" << endl <<
-				"R - resource" << endl <<
-				"L - login" << endl <<
-				"P - password" << endl <<
-				"q - quit" << endl;
-			cin >> option;
-			switch (option) {
-				case 'r':
-				case 'R':
-					cout << "Enter the new resource: ";
-					cin >> resource;
-					Records.edit_record(login, resource, password, id, "resource");
-					Records.saveToFileAll(filename);
-					system("cls");
-					Records.printRecord("all");
-					break;
-
-				case 'l':
-				case 'L':
-					cout << "Enter the new login: ";
-					cin >> login;
-					Records.edit_record(login, resource, password, id, "login");
-					Records.saveToFileAll(filename);
-					CLS
-					Records.printRecord("all");
-					break;
-
-				case 'p':
-				case 'P':
-					option = setPasswordMenu();
-
+				Records.clear();
+				readAllRecords(filename, resource, login, password, Records);
+				if (Records.printRecord("all")) {
+					cout << endl << "___________________________________" << endl <<
+						"Which record would you like to edit?" << endl <<
+						"Enter the record's login, resource or number: ";
+					cin >> keyword;
+					cout << "What do you need to change?" << endl <<
+						"R - resource" << endl <<
+						"L - login" << endl <<
+						"P - password" << endl <<
+						"q - quit" << endl;
+					cin >> option;
 					switch (option) {
-					case '1':
-						setPasswordManually(password);
+					case 'r':
+					case 'R':
+						cout << "Enter the new resource: ";
+						cin >> resource;
+						Records.edit_record(login, resource, password, Records.findRecords(keyword), "resource");
+						Records.saveToFileAll(filename);
+						system("cls");
+						Records.printRecord("all");
 						break;
 
-					case '2':
-						setPasswordAuto(password);
-						break;
-
-					case 'q':
+					case 'l':
+					case 'L':
+						cout << "Enter the new login: ";
+						cin >> login;
+						Records.edit_record(login, resource, password, Records.findRecords(keyword), "login");
+						Records.saveToFileAll(filename);
 						CLS
-							startMenu();
+							Records.printRecord("all");
+						break;
+
+					case 'p':
+					case 'P':
+						option = setPasswordMenu();
+
+						switch (option) {
+						case '1':
+							setPasswordManually(password);
+							break;
+
+						case '2':
+							setPasswordAuto(password);
+							break;
+
+						case 'q':
+							CLS
+								startMenu();
+							break;
+
+						default:
+							CLS
+								startMenu();
+							break;
+						}
+
+						Records.edit_record(login, resource, password, Records.findRecords(keyword), "password");
+						Records.saveToFileAll(filename);
+						CLS
+							Records.printRecord("all");
 						break;
 
 					default:
-						CLS
-							startMenu();
+						cout << "Error! Wrong option picked." << endl;
 						break;
 					}
-
-					Records.edit_record(login, resource, password, id, "password");
-					Records.saveToFileAll(filename);
+					cout << endl << "____________________" << endl << endl;
+					option = startMenu();
+				}
+				else {
 					CLS
-					Records.printRecord("all");
-					break;
+						cout << "The file is empty.";
+					cout << endl << "____________________" << endl << endl;
+					option = startMenu();
+				}
+				break;
 
-				default:
-					cout << "Error! Wrong option picked." << endl;
-					break;
+		case 'f':
+		case 'F':
+			CLS
+				cout << "Enter login or resource: ";
+			cin >> keyword;
+			Records.clear();
+			if (readAllRecords(filename, resource, login, password, Records)) {
+				Records.printRecord(Records.findRecords(keyword));
 			}
-			
-			break;
 
+			else {
+				CLS
+					cout << "The file is empty.";
+			}
+
+			cout << endl << "____________________" << endl << endl;
+			option = startMenu();
+			break;
+		
 		case 's':
 		case 'S':
 			CLS
-			if (readAllRecords(filename, resource, login, password, Records)) {
-				Records.printRecord("all");
-			}
+				Records.clear();
+				if (readAllRecords(filename, resource, login, password, Records)) {
+					Records.printRecord("all");
+				}
+
+				else {
+					CLS
+						cout << "The file is empty.";
+				}
+				cout << endl << "____________________" << endl << endl;
+				option = startMenu();
 			break;
 
 
-		case 'q':
-		case 'Q':
+		case 'd':
+		case 'D':
 			CLS
-			cout << "Okay, bye!" << endl;
+				Records.clear();
+			if (readAllRecords(filename, resource, login, password, Records)) {
+				Records.printRecord("all");
+				cout << endl << "___________________________________" << endl <<
+					"Which record would you like to delete?" << endl <<
+					"Enter the record's number: ";
+				cin >> id;
+				Records.remove(id);
+				Records.printRecord("all");
+				Records.saveToFileAll(filename);
+			}
+
+			else {
+				CLS
+					cout << "The file is empty.";
+			}
+
+			cout << endl << "____________________" << endl << endl;
+			option = startMenu();
 			break;
 
 		default:
 			cout << "Error! Something went wrong." << endl;
 			break;
+		}
 	}
-
+	CLS
+		cout << "Okay, bye!" << endl;
 	system("pause");
 	return 0;
 }

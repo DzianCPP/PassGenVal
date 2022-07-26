@@ -34,13 +34,14 @@ public:
 	void clear();
 	void pop_front();
 	void pop_back();
-	void edit_record(string login, string resource, char* password, int index, string mod);
-	void remove(int index);
-	void printRecord(string all);
+	void edit_record(string login, string resource, char* password, Record& record, string mod);
+	bool remove(int index);
+	bool printRecord(string all);
 	void printRecord(int index);
 	void printRecord(Record& record);
-	void saveToFileAll(string filename);
+	bool saveToFileAll(string filename);
 	void saveToFileOne(string filename);
+	Record& findRecords(string keyword);
 
 private:
 

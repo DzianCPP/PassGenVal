@@ -12,13 +12,15 @@ char startMenu()
 	cout << "s - show all records" << endl;
 	cout << "e - edit a record" << endl;
 	cout << "d - delete a record" << endl;
+	cout << "f - find a record" << endl;
 	cout << "q - quit" << endl;
 	cin >> option;
 
 	if (option == 'a' || option == 'A' ||
 		option == 's' || option == 'S' ||
 		option == 'e' || option == 'E' ||
-		option == 'd' || option == 'D') {
+		option == 'd' || option == 'D' ||
+		option == 'f' || option == 'F') {
 		return option;
 	}
 
@@ -253,12 +255,14 @@ bool readAllRecords(string filename, string& resource, string& login, char* pass
 	char toSkip[2]{};
 	for (; ;) {
 		if (!(readInfo(filename, resource, fin))) {
+			return false;
 			break;
 		}
 		readInfo(filename, login, fin);
 		readInfo(filename, password, fin);
 		Records.push_back(login, resource, password);
 		if (fin.eof()) {
+			return false;
 			break;
 		}
 	}
