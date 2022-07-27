@@ -255,7 +255,9 @@ bool readAllRecords(string filename, string& resource, string& login, char* pass
 	char toSkip[2]{};
 	for (; ;) {
 		if (!(readInfo(filename, resource, fin))) {
-			return false;
+			if (!Records.getRecordsAmount()) {
+				return false;
+			}
 			break;
 		}
 		readInfo(filename, login, fin);
