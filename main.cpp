@@ -22,6 +22,7 @@ int main()
 		case 'a':
 		case 'A':
 			CLS
+				cin.ignore();
 				setRecordInfo(resource, login, password);
 			Records.push_back(login, resource, password);
 			Records.saveToFileOne(filename);

@@ -69,11 +69,11 @@ void setRecordInfo(string& resource, string& login, char* password) {
 }
 
 void setResource(string& resource) {
-	cin >> resource;
+	getline(cin, resource);
 }
 
 void setLogin(string& login) {
-	cin >> login;
+	getline(cin, login);
 }
 
 char setPasswordMenu() {
