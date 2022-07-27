@@ -41,7 +41,7 @@ int main()
 				if (Records.printRecord("all")) {
 					cout << endl << "___________________________________" << endl <<
 						"Which record would you like to edit?" << endl <<
-						"Enter the record's login, resource or number: ";
+						"Enter the record's login or resource (like it is typed in the record): ";
 					getline(cin, keyword);
 					cout << "What do you need to change?" << endl <<
 						"R - resource" << endl <<
@@ -61,9 +61,27 @@ int main()
 							break;
 						}
 						else {
-							Records.saveToFileAll(filename);
 							CLS
 								Records.printRecord("all");
+
+							cout << "______________________________" << endl <<
+								"Please, check if everything is okay. Save changes?" << endl <<
+								"Y - yes" << endl << "N - no" << endl;
+							cin >> option;
+							if (option == 'y' || option == 'Y') {
+								Records.saveToFileAll(filename);
+								CLS
+									Records.clear();
+								readAllRecords(filename, resource, login, password, Records);
+								Records.printRecord("all");
+							}
+
+							else {
+								Records.clear();
+								CLS
+									readAllRecords(filename, resource, login, password, Records);
+								Records.printRecord("all");
+							}
 						}
 						break;
 
@@ -78,9 +96,27 @@ int main()
 							break;
 						}
 						else {
-							Records.saveToFileAll(filename);
 							CLS
 								Records.printRecord("all");
+
+							cout << "______________________________" << endl <<
+								"Please, check if everything is okay. Save changes?" << endl <<
+								"Y - yes" << endl << "N - no" << endl;
+							cin >> option;
+							if (option == 'y' || option == 'Y') {
+								Records.saveToFileAll(filename);
+								CLS
+									Records.clear();
+								readAllRecords(filename, resource, login, password, Records);
+								Records.printRecord("all");
+							}
+
+							else {
+								Records.clear();
+								CLS
+									readAllRecords(filename, resource, login, password, Records);
+								Records.printRecord("all");
+							}
 						}
 						break;
 
@@ -115,9 +151,24 @@ int main()
 						}
 
 						else {
-							Records.saveToFileAll(filename);
 							CLS
 								Records.printRecord("all");
+
+							cout << "______________________________" << endl <<
+								"Please, check if everything is okay. Save changes?" << endl <<
+								"Y - yes" << endl << "N - no" << endl;
+							cin >> option;
+							if (option == 'y' || option == 'Y') {
+								Records.saveToFileAll(filename);
+								CLS
+									Records.printRecord("all");
+							}
+							else {
+								Records.clear();
+								CLS
+									readAllRecords(filename, resource, login, password, Records);
+								Records.printRecord("all");
+							}
 						}
 						break;
 
