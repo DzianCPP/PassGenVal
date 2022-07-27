@@ -57,7 +57,7 @@ int main()
 						getline(cin, resource);
 						if (!Records.edit_record(login, resource, password, Records.findRecords(keyword), "resource")) {
 							CLS
-								cout << "To records were found by the entered keyword!" << endl;
+								cout << "No records were found by the entered keyword!" << endl;
 							break;
 						}
 						else {
@@ -74,7 +74,7 @@ int main()
 						getline(cin, login);
 						if (!Records.edit_record(login, resource, password, Records.findRecords(keyword), "login")) {
 							CLS
-								cout << "To records were found by the entered keyword!" << endl;
+								cout << "No records were found by the entered keyword!" << endl;
 							break;
 						}
 						else {
@@ -110,7 +110,7 @@ int main()
 
 						if (!Records.edit_record(login, resource, password, Records.findRecords(keyword), "password")) {
 							CLS
-								cout << "To records were found by the entered keyword!" << endl;
+								cout << "No records were found by the entered keyword!" << endl;
 							break;
 						}
 
