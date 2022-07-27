@@ -35,13 +35,14 @@ int main()
 		case 'e':
 		case'E':
 			CLS
+				cin.ignore();
 				Records.clear();
 				readAllRecords(filename, resource, login, password, Records);
 				if (Records.printRecord("all")) {
 					cout << endl << "___________________________________" << endl <<
 						"Which record would you like to edit?" << endl <<
 						"Enter the record's login, resource or number: ";
-					cin >> keyword;
+					getline(cin, keyword);
 					cout << "What do you need to change?" << endl <<
 						"R - resource" << endl <<
 						"L - login" << endl <<
@@ -52,21 +53,35 @@ int main()
 					case 'r':
 					case 'R':
 						cout << "Enter the new resource: ";
-						cin >> resource;
-						Records.edit_record(login, resource, password, Records.findRecords(keyword), "resource");
-						Records.saveToFileAll(filename);
-						system("cls");
-						Records.printRecord("all");
+						cin.ignore();
+						getline(cin, resource);
+						if (!Records.edit_record(login, resource, password, Records.findRecords(keyword), "resource")) {
+							CLS
+								cout << "To records were found by the entered keyword!" << endl;
+							break;
+						}
+						else {
+							Records.saveToFileAll(filename);
+							CLS
+								Records.printRecord("all");
+						}
 						break;
 
 					case 'l':
 					case 'L':
 						cout << "Enter the new login: ";
-						cin >> login;
-						Records.edit_record(login, resource, password, Records.findRecords(keyword), "login");
-						Records.saveToFileAll(filename);
-						CLS
-							Records.printRecord("all");
+						cin.ignore();
+						getline(cin, login);
+						if (!Records.edit_record(login, resource, password, Records.findRecords(keyword), "login")) {
+							CLS
+								cout << "To records were found by the entered keyword!" << endl;
+							break;
+						}
+						else {
+							Records.saveToFileAll(filename);
+							CLS
+								Records.printRecord("all");
+						}
 						break;
 
 					case 'p':
@@ -93,10 +108,17 @@ int main()
 							break;
 						}
 
-						Records.edit_record(login, resource, password, Records.findRecords(keyword), "password");
-						Records.saveToFileAll(filename);
-						CLS
-							Records.printRecord("all");
+						if (!Records.edit_record(login, resource, password, Records.findRecords(keyword), "password")) {
+							CLS
+								cout << "To records were found by the entered keyword!" << endl;
+							break;
+						}
+
+						else {
+							Records.saveToFileAll(filename);
+							CLS
+								Records.printRecord("all");
+						}
 						break;
 
 					default:
@@ -118,7 +140,8 @@ int main()
 		case 'F':
 			CLS
 				cout << "Enter login or resource: ";
-			cin >> keyword;
+			cin.ignore();
+			getline(cin, keyword);
 			Records.clear();
 			if (readAllRecords(filename, resource, login, password, Records)) {
 				Records.printRecord(Records.findRecords(keyword));

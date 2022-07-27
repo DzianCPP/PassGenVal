@@ -34,7 +34,7 @@ public:
 	void clear();
 	void pop_front();
 	void pop_back();
-	void edit_record(string login, string resource, char* password, Record& record, string mod);
+	bool edit_record(string login, string resource, char* password, Record& record, string mod);
 	bool remove(int index);
 	bool printRecord(string all);
 	void printRecord(int index);

@@ -68,22 +68,27 @@ void records::push_front(string login, string resource, char* password) {
 	records_amount_++;
 }
 
-void records::edit_record(string login, string resource, char* password, Record& record, string mod) {
+bool records::edit_record(string login, string resource, char* password, Record& record, string mod) {
 	Record* edited_record = &record;
 
-	if (mod == "login") {
+	if (mod == "login" && edited_record != nullptr) {
 		edited_record->login = login;
+		return true;
 	}
 
-	else if (mod == "password") {
+	else if (mod == "password" && edited_record != nullptr) {
 		for (int i = 0; i < strlen(password); i++) {
 			edited_record->password[i] = password[i];
 		}
+		return true;
 	}
 	
-	else if (mod == "resource") {
+	else if (mod == "resource" && edited_record != nullptr) {
 		edited_record->resource = resource;
+		return true;
 	}
+
+	return false;
 }
 
 bool records::remove(int index) {
@@ -143,9 +148,11 @@ bool records::printRecord(string all) {
 
 void records::printRecord(Record& record) {
 	
+	if (&record != nullptr) {
 		cout << "Resource: " << record.resource << endl <<
 			"Login: " << record.login << endl <<
 			"Password: " << record.password << endl;
+	}
 }
 
 void records::printRecord(int index) {
@@ -259,6 +266,7 @@ records::Record& records::findRecords(string keyword) {
 			}
 
 			else {
+				CLS
 				cout << "Error! No records with such a keyword.";
 				toFind = nullptr;
 				return *toFind;

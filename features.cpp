@@ -165,6 +165,8 @@ bool validatePassword(char* password, string mod)
 
 	if (!specialCount)
 	{
+		if (mod == "manual") { cout << "Error! The password doesn't have special characters: !, @, #, $, %, ^, &, *, (, ), _, +, -, = " << endl; 
+		}
 		return false;
 	}
 
@@ -172,13 +174,22 @@ bool validatePassword(char* password, string mod)
 }
 
 char* setPasswordManually(char* password) {
+	CLS
+		cout << "The password should contain: " << endl
+		<< "1) 8-16 symbols" << endl
+		<< "2) At least 1 upper case letter" << endl
+		<< "3) At least 1 lower case letter" << endl
+		<< "4) At least 1 number" << endl
+		<< "5) At least one special character: !, @, #, $, %, ^, &, *, (, ), _, -, +, =" << endl;
+
+	cout << "Enter your password: ";
 	cin >> password;
 	if (validatePassword(password, "manual")) {
 		return password;
 	}
 
 	else {
-		cout << "Error! Password is not validated. Try again?" << endl <<
+		cout << "Try again?" << endl <<
 			"Y - yes" << endl <<
 			"N - no, quit" << endl;
 		char option{};
